@@ -39,24 +39,22 @@ var congratulationMessage = function (ctx, color, fontStyle) {
 };
 
 var showBarChart = function (ctx, names, times) {
-  names.forEach(function (name, i) {
+  var maxItem = getMaxElement(times);
+  times.forEach(function (time, i) {
     var currentColumnX = CLOUD_COORDINATE_X + GAP + (COLUMN_WIDTH + GAP) * i;
+    var currentColumnY = CLOUD_HEIGHT - FLOOR_GAP - (time * MAX_COLUMN_HEIGHT / maxItem);
     ctx.fillStyle = '#000';
     ctx.fillText(
-        name,
+        names[i],
         currentColumnX,
         CLOUD_HEIGHT - 10
     );
-  });
-  times.forEach(function (time, i, array) {
-    var currentColumnX = CLOUD_COORDINATE_X + GAP + (COLUMN_WIDTH + GAP) * i;
-    var currentColumnY = CLOUD_HEIGHT - FLOOR_GAP - (time * MAX_COLUMN_HEIGHT / getMaxElement(array));
-    names[i] === 'Вы' ? ctx.fillStyle = 'rgba(255, 0, 0, 1)' : ctx.fillStyle = 'rgba(0, 0, 255, ' + parseFloat(Math.random().toFixed(2) || 0.01) + ')';
+    ctx.fillStyle = names[i] === 'Вы' ? 'rgba(255, 0, 0, 1)' : 'rgba(0, 0, 255, ' + parseFloat(Math.random().toFixed(2) || 0.01) + ')';
     ctx.fillRect(
         currentColumnX,
         currentColumnY,
         COLUMN_WIDTH,
-        (time * MAX_COLUMN_HEIGHT / getMaxElement(array))
+        (time * MAX_COLUMN_HEIGHT / maxItem)
     );
     ctx.fillStyle = '#000';
     ctx.fillText(
