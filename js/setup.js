@@ -23,12 +23,7 @@ var generateWizards = function () {
   return wizards;
 };
 
-var renderWizard = function (wizard) {
-  var wizardElement = document.querySelector('#similar-wizard-template')
-    .content
-    .querySelector('.setup-similar-item')
-    .cloneNode(true);
-
+var renderWizard = function (wizard, wizardElement) {
   wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
   wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
   wizardElement.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
@@ -45,7 +40,11 @@ var addWizards = function (wizards) {
   var fragment = document.createDocumentFragment();
 
   wizards.forEach(function (wizard) {
-    fragment.appendChild(renderWizard(wizard));
+    var wizardElement = document.querySelector('#similar-wizard-template')
+      .content
+      .querySelector('.setup-similar-item')
+      .cloneNode(true);
+    fragment.appendChild(renderWizard(wizard, wizardElement));
   });
 
   document.querySelector('.setup-similar-list').appendChild(fragment);
