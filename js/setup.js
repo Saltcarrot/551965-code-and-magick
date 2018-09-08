@@ -24,11 +24,14 @@ var generateWizards = function () {
 };
 
 var renderWizard = function (wizard, wizardElement) {
-  wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
-  wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
-  wizardElement.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
 
-  return wizardElement;
+  var clone = wizardElement.cloneNode(true);
+
+  clone.querySelector('.setup-similar-label').textContent = wizard.name;
+  clone.querySelector('.wizard-coat').style.fill = wizard.coatColor;
+  clone.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
+
+  return clone;
 };
 
 var showUserDialog = function () {
@@ -37,13 +40,13 @@ var showUserDialog = function () {
 };
 
 var addWizards = function (wizards) {
+  var wizardElement = document.querySelector('#similar-wizard-template')
+    .content
+    .querySelector('.setup-similar-item');
+
   var fragment = document.createDocumentFragment();
 
   wizards.forEach(function (wizard) {
-    var wizardElement = document.querySelector('#similar-wizard-template')
-      .content
-      .querySelector('.setup-similar-item')
-      .cloneNode(true);
     fragment.appendChild(renderWizard(wizard, wizardElement));
   });
 
