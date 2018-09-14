@@ -14,7 +14,6 @@ var setupUserName = setup.querySelector('.setup-user-name');
 var setupOpen = document.querySelector('.setup-open');
 
 var setupClose = setup.querySelector('.setup-close');
-var submit = setup.querySelector('.setup-submit');
 
 var wizard = setup.querySelector('.setup-wizard');
 
@@ -22,12 +21,6 @@ var wizardCoat = wizard.querySelector('.wizard-coat');
 var wizardEyes = wizard.querySelector('.wizard-eyes');
 
 var fireball = setup.querySelector('.setup-fireball-wrap');
-
-// var waizardApperance = setup.querySelector('.setup-wizard-appearance');
-
-var coatColor;
-var eyesColor;
-var fireballColor;
 
 var getRandomElementFromArray = function (arr) {
   return arr[Math.floor(Math.random() * arr.length)];
@@ -41,53 +34,31 @@ var getRandomElementExcept = function (arr, arrCurrentElement) {
   return arrRandomElement;
 };
 
-var showUI = function () {
-  setup.classList.remove('hidden');
-
-  document.addEventListener('keydown', closeUIUsingESC); // закрыть окно нажатием ESC
-
-  setupClose.addEventListener('click', closeUI); // закрыть окно, кликнув по крестику
-  setupClose.addEventListener('keydown', closeUIUsingENTER); // закрыть окно, нажав на крестике ENTER
-
-  submit.addEventListener('click', closeUI); // закрыть окно, отправив форму кликом
-  submit.addEventListener('keydown', closeUIUsingENTER); // закрыть окно, отправив форму ENTER
+var removeClassNameFromElement = function (element, className) {
+  element.classList.remove(className);
 };
 
-var closeUI = function () {
-  setup.classList.add('hidden');
-
-  document.removeEventListener('keydown', closeUIUsingESC);
-
-  setupClose.removeEventListener('click', closeUI);
-  setupClose.removeEventListener('keydown', closeUIUsingENTER);
-
-  submit.removeEventListener('click', closeUI);
-  submit.removeEventListener('keydown', closeUIUsingENTER);
+var addClassNameFromElement = function (element, className) {
+  element.classList.add(className);
 };
 
-var closeUIUsingESC = function (evt) {
-  if (evt.keyCode === ESC) {
-    setup.classList.add('hidden');
-  }
+var changeProperty = function (element, property, array) {
+  element.style[property] = getRandomElementExcept(array);
 };
 
-var closeUIUsingENTER = function (evt) {
-  if (evt.keyCode === ENTER) {
-    setup.classList.add('hidden');
-  }
+var coatColorClickHandle = function () {
+  changeProperty(wizardCoat, 'fill', COAT_COLORS);
 };
 
-setupOpen.addEventListener('click', function () {
-  showUI();
-});
+var eyesColorClickHandle = function () {
+  changeProperty(wizardEyes, 'fill', EYES_COLORS);
+};
 
-setupOpen.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === ENTER) {
-    showUI();
-  }
-});
+var fireballColorClickHandle = function () {
+  changeProperty(fireball, 'backgroundColor', FIREBALL_COLORS);
+};
 
-setupUserName.addEventListener('invalid', function () {
+var validationCheckHandle = function () {
   if (setupUserName.validity.tooShort) {
     setupUserName.setCustomValidity('Имя должно состоять минимум из 2-х символов');
   } else if (setupUserName.validity.tooLong) {
@@ -97,22 +68,60 @@ setupUserName.addEventListener('invalid', function () {
   } else {
     setupUserName.setCustomValidity('');
   }
-});
+};
 
-wizardCoat.addEventListener('click', function () {
-  coatColor = getRandomElementExcept(COAT_COLORS);
-  wizardCoat.style.fill = coatColor;
-  // waizardApperance.querySelector('.coat-color').setAttribute('value', coatColor);
-});
+var setupWindowOpenHandle = function () {
+  removeClassNameFromElement(setup, 'hidden');
 
-wizardEyes.addEventListener('click', function () {
-  eyesColor = getRandomElementExcept(EYES_COLORS);
-  wizardEyes.style.fill = eyesColor;
-  // waizardApperance.querySelector('.eyes-color').setAttribute('value', eyesColor);
-});
+  document.addEventListener('keydown', setupWindowCloseByPressedEscHandle);
 
-fireball.addEventListener('click', function () {
-  fireballColor = getRandomElementExcept(FIREBALL_COLORS);
-  fireball.style.backgroundColor = fireballColor;
-  // fireball.querySelector('input').setAttribute('value', fireballColor);
+  setupClose.addEventListener('click', setupWindowCloseHandle);
+  setupClose.addEventListener('keydown', setupWindowCloseByPressedEnterHandle);
+
+  document.addEventListener('invalid', validationCheckHandle);
+
+  setupUserName.addEventListener('focus', function () {
+    document.removeEventListener('keydown', setupWindowCloseByPressedEscHandle);
+  });
+
+  setupUserName.addEventListener('blur', function () {
+    document.addEventListener('keydown', setupWindowCloseByPressedEscHandle);
+  });
+
+  wizardCoat.addEventListener('click', coatColorClickHandle);
+  wizardEyes.addEventListener('click', eyesColorClickHandle);
+  fireball.addEventListener('click', fireballColorClickHandle);
+};
+
+var setupWindowCloseHandle = function () {
+  addClassNameFromElement(setup, 'hidden');
+
+  document.removeEventListener('keydown', setupWindowCloseByPressedEscHandle);
+
+  setupClose.removeEventListener('click', setupWindowCloseHandle);
+  setupClose.removeEventListener('keydown', setupWindowCloseByPressedEnterHandle);
+
+  wizardCoat.removeEventListener('click', coatColorClickHandle);
+  wizardEyes.removeEventListener('click', eyesColorClickHandle);
+  fireball.removeEventListener('click', fireballColorClickHandle);
+};
+
+var setupWindowCloseByPressedEscHandle = function (evt) {
+  if (evt.keyCode === ESC) {
+    addClassNameFromElement(setup, 'hidden');
+  }
+};
+
+var setupWindowCloseByPressedEnterHandle = function (evt) {
+  if (evt.keyCode === ENTER) {
+    addClassNameFromElement(setup, 'hidden');
+  }
+};
+
+setupOpen.addEventListener('click', setupWindowOpenHandle);
+
+setupOpen.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER) {
+    setupWindowOpenHandle();
+  }
 });
