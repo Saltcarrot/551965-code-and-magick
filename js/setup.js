@@ -8,18 +8,12 @@ var EYES_COLORS = ['black', 'red', 'yellow', 'blue', 'green'];
 var FIREBALL_COLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
 
 var setup = document.querySelector('.setup');
-
 var setupUserName = setup.querySelector('.setup-user-name');
-
 var setupOpen = document.querySelector('.setup-open');
-
 var setupClose = setup.querySelector('.setup-close');
-
 var wizard = setup.querySelector('.setup-wizard');
-
 var wizardCoat = wizard.querySelector('.wizard-coat');
 var wizardEyes = wizard.querySelector('.wizard-eyes');
-
 var fireball = setup.querySelector('.setup-fireball-wrap');
 
 var getRandomElementFromArray = function (arr) {
@@ -38,24 +32,24 @@ var removeClassNameFromElement = function (element, className) {
   element.classList.remove(className);
 };
 
-var addClassNameFromElement = function (element, className) {
+var addClassNameToElement = function (element, className) {
   element.classList.add(className);
 };
 
-var changeProperty = function (element, property, array) {
+var changeStyleProperty = function (element, property, array) {
   element.style[property] = getRandomElementExcept(array);
 };
 
-var coatColorClickHandle = function () {
-  changeProperty(wizardCoat, 'fill', COAT_COLORS);
+var coatcolorClickHandle = function () {
+  changeStyleProperty(wizardCoat, 'fill', COAT_COLORS);
 };
 
-var eyesColorClickHandle = function () {
-  changeProperty(wizardEyes, 'fill', EYES_COLORS);
+var eyescolorClickHandle = function () {
+  changeStyleProperty(wizardEyes, 'fill', EYES_COLORS);
 };
 
-var fireballColorClickHandle = function () {
-  changeProperty(fireball, 'backgroundColor', FIREBALL_COLORS);
+var fireballcolorClickHandle = function () {
+  changeStyleProperty(fireball, 'backgroundColor', FIREBALL_COLORS);
 };
 
 var validationCheckHandle = function () {
@@ -70,58 +64,58 @@ var validationCheckHandle = function () {
   }
 };
 
-var setupWindowOpenHandle = function () {
+var deleteEventListeners = function () {
+  document.removeEventListener('keydown', setupwindowEscHandle);
+  setupClose.removeEventListener('click', setupwindowClickHandle);
+  setupClose.removeEventListener('keydown', setupwindowEnterHandle);
+  wizardCoat.removeEventListener('click', coatcolorClickHandle);
+  wizardEyes.removeEventListener('click', eyescolorClickHandle);
+  fireball.removeEventListener('click', fireballcolorClickHandle);
+};
+
+var setupwindowClickorkeydownHandle = function () {
   removeClassNameFromElement(setup, 'hidden');
 
-  document.addEventListener('keydown', setupWindowCloseByPressedEscHandle);
-
-  setupClose.addEventListener('click', setupWindowCloseHandle);
-  setupClose.addEventListener('keydown', setupWindowCloseByPressedEnterHandle);
-
-  document.addEventListener('invalid', validationCheckHandle);
+  document.addEventListener('keydown', setupwindowEscHandle);
+  setupClose.addEventListener('click', setupwindowClickHandle);
+  setupClose.addEventListener('keydown', setupwindowEnterHandle);
+  setupUserName.addEventListener('invalid', validationCheckHandle);
 
   setupUserName.addEventListener('focus', function () {
-    document.removeEventListener('keydown', setupWindowCloseByPressedEscHandle);
+    document.removeEventListener('keydown', setupwindowEscHandle);
   });
-
   setupUserName.addEventListener('blur', function () {
-    document.addEventListener('keydown', setupWindowCloseByPressedEscHandle);
+    document.addEventListener('keydown', setupwindowEscHandle);
   });
 
-  wizardCoat.addEventListener('click', coatColorClickHandle);
-  wizardEyes.addEventListener('click', eyesColorClickHandle);
-  fireball.addEventListener('click', fireballColorClickHandle);
+  wizardCoat.addEventListener('click', coatcolorClickHandle);
+  wizardEyes.addEventListener('click', eyescolorClickHandle);
+  fireball.addEventListener('click', fireballcolorClickHandle);
 };
 
-var setupWindowCloseHandle = function () {
-  addClassNameFromElement(setup, 'hidden');
-
-  document.removeEventListener('keydown', setupWindowCloseByPressedEscHandle);
-
-  setupClose.removeEventListener('click', setupWindowCloseHandle);
-  setupClose.removeEventListener('keydown', setupWindowCloseByPressedEnterHandle);
-
-  wizardCoat.removeEventListener('click', coatColorClickHandle);
-  wizardEyes.removeEventListener('click', eyesColorClickHandle);
-  fireball.removeEventListener('click', fireballColorClickHandle);
+var setupwindowClickHandle = function () {
+  addClassNameToElement(setup, 'hidden');
+  deleteEventListeners();
 };
 
-var setupWindowCloseByPressedEscHandle = function (evt) {
+var setupwindowEscHandle = function (evt) {
   if (evt.keyCode === ESC) {
-    addClassNameFromElement(setup, 'hidden');
+    addClassNameToElement(setup, 'hidden');
+    deleteEventListeners();
   }
 };
 
-var setupWindowCloseByPressedEnterHandle = function (evt) {
+var setupwindowEnterHandle = function (evt) {
   if (evt.keyCode === ENTER) {
-    addClassNameFromElement(setup, 'hidden');
+    addClassNameToElement(setup, 'hidden');
+    deleteEventListeners();
   }
 };
 
-setupOpen.addEventListener('click', setupWindowOpenHandle);
+setupOpen.addEventListener('click', setupwindowClickorkeydownHandle);
 
 setupOpen.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER) {
-    setupWindowOpenHandle();
+    setupwindowClickorkeydownHandle();
   }
 });
