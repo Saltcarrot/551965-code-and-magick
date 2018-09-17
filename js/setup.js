@@ -40,19 +40,19 @@ var changeStyleProperty = function (element, property, array) {
   element.style[property] = getRandomElementExcept(array);
 };
 
-var coatcolorClickHandle = function () {
+var coatClickHandler = function () {
   changeStyleProperty(wizardCoat, 'fill', COAT_COLORS);
 };
 
-var eyescolorClickHandle = function () {
+var eyesClickHandler = function () {
   changeStyleProperty(wizardEyes, 'fill', EYES_COLORS);
 };
 
-var fireballcolorClickHandle = function () {
+var fireballClickHandler = function () {
   changeStyleProperty(fireball, 'backgroundColor', FIREBALL_COLORS);
 };
 
-var validationCheckHandle = function () {
+var nameInvalidHandler = function () {
   if (setupUserName.validity.tooShort) {
     setupUserName.setCustomValidity('Имя должно состоять минимум из 2-х символов');
   } else if (setupUserName.validity.tooLong) {
@@ -65,57 +65,59 @@ var validationCheckHandle = function () {
 };
 
 var deleteEventListeners = function () {
-  document.removeEventListener('keydown', setupwindowEscHandle);
-  setupClose.removeEventListener('click', setupwindowClickHandle);
-  setupClose.removeEventListener('keydown', setupwindowEnterHandle);
-  wizardCoat.removeEventListener('click', coatcolorClickHandle);
-  wizardEyes.removeEventListener('click', eyescolorClickHandle);
-  fireball.removeEventListener('click', fireballcolorClickHandle);
+  document.removeEventListener('keydown', documentKeydownHandler);
+  setupClose.removeEventListener('click', crossClickHandler);
+  setupClose.removeEventListener('keydown', crossKeydownHandler);
+  wizardCoat.removeEventListener('click', coatClickHandler);
+  wizardEyes.removeEventListener('click', eyesClickHandler);
+  fireball.removeEventListener('click', fireballClickHandler);
 };
 
-var setupwindowClickorkeydownHandle = function () {
+var setupClickHandler = function () {
   removeClassNameFromElement(setup, 'hidden');
 
-  document.addEventListener('keydown', setupwindowEscHandle);
-  setupClose.addEventListener('click', setupwindowClickHandle);
-  setupClose.addEventListener('keydown', setupwindowEnterHandle);
-  setupUserName.addEventListener('invalid', validationCheckHandle);
+  document.addEventListener('keydown', documentKeydownHandler);
+  setupClose.addEventListener('click', crossClickHandler);
+  setupClose.addEventListener('keydown', crossKeydownHandler);
+  setupUserName.addEventListener('invalid', nameInvalidHandler);
 
   setupUserName.addEventListener('focus', function () {
-    document.removeEventListener('keydown', setupwindowEscHandle);
+    document.removeEventListener('keydown', documentKeydownHandler);
   });
   setupUserName.addEventListener('blur', function () {
-    document.addEventListener('keydown', setupwindowEscHandle);
+    document.addEventListener('keydown', documentKeydownHandler);
   });
 
-  wizardCoat.addEventListener('click', coatcolorClickHandle);
-  wizardEyes.addEventListener('click', eyescolorClickHandle);
-  fireball.addEventListener('click', fireballcolorClickHandle);
+  wizardCoat.addEventListener('click', coatClickHandler);
+  wizardEyes.addEventListener('click', eyesClickHandler);
+  fireball.addEventListener('click', fireballClickHandler);
 };
 
-var setupwindowClickHandle = function () {
+var closeSetupWindow = function () {
   addClassNameToElement(setup, 'hidden');
   deleteEventListeners();
 };
 
-var setupwindowEscHandle = function (evt) {
+var crossClickHandler = function () {
+  closeSetupWindow();
+};
+
+var documentKeydownHandler = function (evt) {
   if (evt.keyCode === ESC) {
-    addClassNameToElement(setup, 'hidden');
-    deleteEventListeners();
+    closeSetupWindow();
   }
 };
 
-var setupwindowEnterHandle = function (evt) {
+var crossKeydownHandler = function (evt) {
   if (evt.keyCode === ENTER) {
-    addClassNameToElement(setup, 'hidden');
-    deleteEventListeners();
+    closeSetupWindow();
   }
 };
 
-setupOpen.addEventListener('click', setupwindowClickorkeydownHandle);
+setupOpen.addEventListener('click', setupClickHandler);
 
 setupOpen.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER) {
-    setupwindowClickorkeydownHandle();
+    setupClickHandler();
   }
 });
