@@ -15,6 +15,8 @@ var wizard = setup.querySelector('.setup-wizard');
 var wizardCoat = wizard.querySelector('.wizard-coat');
 var wizardEyes = wizard.querySelector('.wizard-eyes');
 var fireball = setup.querySelector('.setup-fireball-wrap');
+var defaultTopSetupPosition = setup.style.top;
+var defaultLeftSetupPosition = setup.style.left;
 
 var getRandomElementFromArray = function (arr) {
   return arr[Math.floor(Math.random() * arr.length)];
@@ -114,7 +116,11 @@ var crossKeydownHandler = function (evt) {
   }
 };
 
-setupOpen.addEventListener('click', setupClickHandler);
+setupOpen.addEventListener('click', function () {
+  setup.style.top = defaultTopSetupPosition;
+  setup.style.left = defaultLeftSetupPosition;
+  setupClickHandler();
+});
 
 setupOpen.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER) {
