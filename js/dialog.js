@@ -17,7 +17,6 @@
 
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
-      dragged = true;
 
       var shift = {
         x: startCoords.x - moveEvt.clientX,
@@ -29,6 +28,10 @@
         y: moveEvt.clientY
       };
 
+      if ((shift.x !== startCoords.x) || (shift.y !== startCoords.y)) {
+        dragged = true;
+      }
+
       setupDialogElement.style.top = (setupDialogElement.offsetTop - shift.y) + 'px';
       setupDialogElement.style.left = (setupDialogElement.offsetLeft - shift.x) + 'px';
     };
@@ -39,19 +42,17 @@
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
 
-      if (dragged === true) {
+      if (dragged) {
         var onClickPreventDefault = function (e) {
           e.preventDefault();
           dialogHandler.removeEventListener('click', onClickPreventDefault);
         };
+
         dialogHandler.addEventListener('click', onClickPreventDefault);
       }
 
     };
-
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   });
-
-
 })();
