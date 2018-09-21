@@ -28,7 +28,7 @@
         y: moveEvt.clientY
       };
 
-      if ((shift.x !== startCoords.x) || (shift.y !== startCoords.y)) {
+      if ((shift.x > 0) || (shift.y > 0)) {
         dragged = true;
       }
 
