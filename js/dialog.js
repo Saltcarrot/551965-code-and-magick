@@ -15,6 +15,10 @@
 
     var dragged = false;
 
+    /**
+     * Обработка события "движение нажатой ЛКМ"
+     * @param moveEvt
+     */
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
 
@@ -36,6 +40,10 @@
       setupDialogElement.style.left = (setupDialogElement.offsetLeft - shift.x) + 'px';
     };
 
+    /**
+     * Обработка события "отжатия" ЛКМ
+     * @param upEvt
+     */
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
 

@@ -1,33 +1,17 @@
 'use strict';
 
 (function () {
-  var COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
-  var EYES_COLORS = ['black', 'red', 'yellow', 'blue', 'green'];
-  var FIREBALL_COLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
-
   var setup = document.querySelector('.setup');
   var setupUserName = setup.querySelector('.setup-user-name');
   var setupOpen = document.querySelector('.setup-open');
   var setupClose = setup.querySelector('.setup-close');
-  var wizard = setup.querySelector('.setup-wizard');
-  var wizardCoat = wizard.querySelector('.wizard-coat');
-  var wizardEyes = wizard.querySelector('.wizard-eyes');
-  var fireball = setup.querySelector('.setup-fireball-wrap');
   var defaultTopSetupPosition = setup.style.top;
   var defaultLeftSetupPosition = setup.style.left;
+  var formSetup = document.querySelector('.setup-wizard-form');
 
-  var coatClickHandler = function () {
-    window.elementChanges.changeStyleProperty(wizardCoat, 'fill', COAT_COLORS);
-  };
-
-  var eyesClickHandler = function () {
-    window.elementChanges.changeStyleProperty(wizardEyes, 'fill', EYES_COLORS);
-  };
-
-  var fireballClickHandler = function () {
-    window.elementChanges.changeStyleProperty(fireball, 'backgroundColor', FIREBALL_COLORS);
-  };
-
+  /**
+   * Функция проверки валидации формы
+   */
   var nameInvalidHandler = function () {
     if (setupUserName.validity.tooShort) {
       setupUserName.setCustomValidity('Имя должно состоять минимум из 2-х символов');
@@ -40,6 +24,9 @@
     }
   };
 
+  /**
+   * Функция удаления обработчиков событий
+   */
   var deleteEventListeners = function () {
     document.removeEventListener('keydown', function (evt) {
       window.util.isEscEvent(evt, closeSetupWindow);
@@ -48,13 +35,14 @@
     setupClose.removeEventListener('keydown', function (evt) {
       window.util.isEnterEvent(evt, closeSetupWindow);
     });
-    wizardCoat.removeEventListener('click', coatClickHandler);
-    wizardEyes.removeEventListener('click', eyesClickHandler);
-    fireball.removeEventListener('click', fireballClickHandler);
   };
 
+  /**
+   * Обработчик события открытия окна кастомизации мага
+   */
   var setupClickHandler = function () {
-    window.elementChanges.removeClassNameFromElement(setup, 'hidden');
+    window.util.removeClassNameFromElement(setup, 'hidden');
+    document.querySelector('.setup-similar').classList.remove('hidden');
 
     document.addEventListener('keydown', function (evt) {
       window.util.isEscEvent(evt, closeSetupWindow);
@@ -75,17 +63,23 @@
         window.util.isEscEvent(evt, closeSetupWindow);
       });
     });
-
-    wizardCoat.addEventListener('click', coatClickHandler);
-    wizardEyes.addEventListener('click', eyesClickHandler);
-    fireball.addEventListener('click', fireballClickHandler);
+    formSetup.addEventListener('submit', function (evt) {
+      window.backend.save(new FormData(formSetup), closeSetupWindow, window.util.isError);
+      evt.preventDefault();
+    });
   };
 
+  /**
+   * Функция закрытия окна кастомизации мага
+   */
   var closeSetupWindow = function () {
-    window.elementChanges.addClassNameToElement(setup, 'hidden');
+    window.util.addClassNameToElement(setup, 'hidden');
     deleteEventListeners();
   };
 
+  /**
+   * Обработчик события нажатия по крестику окна кастомизации мага
+   */
   var crossClickHandler = function () {
     closeSetupWindow();
   };
