@@ -1,6 +1,8 @@
 'use strict';
 
 window.backend = (function () {
+  var URL_FOR_POST = 'https://js.dump.academy/code-and-magick';
+  var URL_FOR_GET = 'https://js.dump.academy/code-and-magick/data';
   return {
     setConfig: function (onLoad, onError) {
       var xhr = new XMLHttpRequest();
@@ -29,12 +31,12 @@ window.backend = (function () {
     },
     load: function (onLoad, onError) {
       var xhr = window.backend.setConfig(onLoad, onError);
-      xhr.open('GET', 'https://js.dump.academy/code-and-magick/data');
+      xhr.open('GET', URL_FOR_GET);
       xhr.send();
     },
     save: function (data, onLoad, onError) {
       var xhr = window.backend.setConfig(onLoad, onError);
-      xhr.open('POST', 'https://js.dump.academy/code-and-magick');
+      xhr.open('POST', URL_FOR_POST);
       xhr.send(data);
     }
   };

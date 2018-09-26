@@ -27,14 +27,12 @@
       return wizardElement;
     };
 
-    (function () {
-      for (var i = 0; i < 4; i++) {
-        var currentWizard = renderWizard(wizards[i]);
-        fragment.appendChild(currentWizard);
-      }
-    })();
+    wizards.slice(0, 4).forEach(function (elem) {
+      fragment.appendChild(renderWizard(elem));
+    });
 
     wizardsList.appendChild(fragment);
   };
+
   window.backend.load(addWizards, window.util.isError);
 })();

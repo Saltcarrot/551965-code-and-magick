@@ -35,6 +35,7 @@
     setupClose.removeEventListener('keydown', function (evt) {
       window.util.isEnterEvent(evt, closeSetupWindow);
     });
+    formSetup.removeEventListener('submit', formSubmitHandler);
   };
 
   /**
@@ -63,10 +64,17 @@
         window.util.isEscEvent(evt, closeSetupWindow);
       });
     });
-    formSetup.addEventListener('submit', function (evt) {
-      window.backend.save(new FormData(formSetup), closeSetupWindow, window.util.isError);
-      evt.preventDefault();
-    });
+    formSetup.addEventListener('submit', formSubmitHandler);
+  };
+
+  /**
+   * Обработчик события сохранения настроек мага
+   * @param evt
+   */
+  var formSubmitHandler = function (evt) {
+    window.backend.save(new FormData(formSetup), closeSetupWindow, window.util.isError);
+    evt.preventDefault();
+    formSetup.reset();
   };
 
   /**
