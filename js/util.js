@@ -5,30 +5,19 @@ window.util = (function () {
   var ESC = 27;
 
   return {
-    /**
-     * Функция обработки нажатия клавиши ESC
-     * @param evt
-     * @param action
-     */
+    // Функция обработки нажатия клавиши ESC
     isEscEvent: function (evt, action) {
       if (evt.keyCode === ESC) {
         action();
       }
     },
-    /**
-     * Функция обработки клавиши ENTER
-     * @param evt
-     * @param action
-     */
+    // Функция обработки клавиши ENTER
     isEnterEvent: function (evt, action) {
       if (evt.keyCode === ENTER) {
         action();
       }
     },
-    /**
-     * Функция вывода сообщения об ошибке
-     * @param errorMessage
-     */
+    // Функция вывода сообщения об ошибке
     isError: function (errorMessage) {
       var elem = document.querySelector('.error--message');
       if (!elem) {
@@ -38,28 +27,15 @@ window.util = (function () {
         document.body.insertBefore(container, document.body.children[0]);
       }
     },
-    /**
-     * Функция выбора любого элемента из массива
-     * @param arr
-     * @return {*}
-     */
+    // Функция выбора любого элемента из массива
     getRandomElementFromArray: function (arr) {
       return arr[Math.floor(Math.random() * arr.length)];
     },
-    /**
-     * Функция выбора максимального элемента из массива
-     * @param array
-     * @return {number}
-     */
+    // Функция выбора максимального элемента из массива
     getMaxElement: function (array) {
       return Math.max.apply(null, array);
     },
-    /**
-     * Функция выбора НЕвыбранного ранее элемента из массива
-     * @param arr
-     * @param arrCurrentElement
-     * @return {*}
-     */
+    // Функция выбора НЕвыбранного ранее элемента из массива
     getRandomElementExcept: function (arr, arrCurrentElement) {
       var arrRandomElement;
       do {
@@ -67,19 +43,11 @@ window.util = (function () {
       } while (arrRandomElement === arrCurrentElement);
       return arrRandomElement;
     },
-    /**
-     * Функция удаления имени класса
-     * @param element
-     * @param className
-     */
+    // Функция удаления имени класса
     removeClassNameFromElement: function (element, className) {
       element.classList.remove(className);
     },
-    /**
-     * Функция добавления имени класса
-     * @param element
-     * @param className
-     */
+    // Функция добавления имени класса
     addClassNameToElement: function (element, className) {
       element.classList.add(className);
     }

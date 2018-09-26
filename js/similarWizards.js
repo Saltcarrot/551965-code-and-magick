@@ -1,10 +1,7 @@
 'use strict';
 
 (function () {
-  /**
-   * Функция добавления элементов (магов) в документ
-   * @param wizards
-   */
+  // Функция добавления элементов (магов) в документ
   var addWizards = function (wizards) {
     var wizardsTemplate = document.querySelector('#similar-wizard-template')
       .content
@@ -12,11 +9,7 @@
     var wizardsList = document.querySelector('.setup-similar-list');
     var fragment = document.createDocumentFragment();
 
-    /**
-     * Функция рендеринга мага
-     * @param wizard
-     * @returns {Node}
-     */
+    // Функция рендеринга мага
     var renderWizard = function (wizard) {
       var wizardElement = wizardsTemplate.cloneNode(true);
 

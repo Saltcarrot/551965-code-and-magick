@@ -23,24 +23,13 @@
     showBarChart(ctx, names, times);
   };
 
-  /**
-   * Функция отрисовки окна статистики
-   * @param ctx
-   * @param x
-   * @param y
-   * @param color
-   */
+  // Функция отрисовки окна статистики
   var renderCloud = function (ctx, x, y, color) {
     ctx.fillStyle = color;
     ctx.fillRect(x, y, CLOUD_WIDTH, CLOUD_HEIGHT);
   };
 
-  /**
-   * Функция отрисовки сообщения
-   * @param ctx
-   * @param color
-   * @param fontStyle
-   */
+  // Функция отрисовки сообщения
   var congratulationMessage = function (ctx, color, fontStyle) {
     ctx.fillStyle = color;
     ctx.font = fontStyle;
@@ -48,12 +37,7 @@
     ctx.fillText('Список результатов:', CONGRATULATION_X, CONGRATULATION_Y + LINE_HEIGHT);
   };
 
-  /**
-   * Функция отрисовки гистограммы
-   * @param ctx
-   * @param names
-   * @param times
-   */
+  // Функция отрисовки гистограммы
   var showBarChart = function (ctx, names, times) {
     var maxItem = window.util.getMaxElement(times);
     times.forEach(function (time, i) {

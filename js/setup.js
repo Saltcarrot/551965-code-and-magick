@@ -9,9 +9,7 @@
   var defaultLeftSetupPosition = setup.style.left;
   var formSetup = document.querySelector('.setup-wizard-form');
 
-  /**
-   * Функция проверки валидации формы
-   */
+  // Функция проверки валидации формы
   var nameInvalidHandler = function () {
     if (setupUserName.validity.tooShort) {
       setupUserName.setCustomValidity('Имя должно состоять минимум из 2-х символов');
@@ -24,9 +22,7 @@
     }
   };
 
-  /**
-   * Функция удаления обработчиков событий
-   */
+  // Функция удаления обработчиков событий
   var deleteEventListeners = function () {
     document.removeEventListener('keydown', function (evt) {
       window.util.isEscEvent(evt, closeSetupWindow);
@@ -38,9 +34,7 @@
     formSetup.removeEventListener('submit', formSubmitHandler);
   };
 
-  /**
-   * Обработчик события открытия окна кастомизации мага
-   */
+  // Обработчик события открытия окна кастомизации мага
   var setupClickHandler = function () {
     window.util.removeClassNameFromElement(setup, 'hidden');
     document.querySelector('.setup-similar').classList.remove('hidden');
@@ -67,27 +61,20 @@
     formSetup.addEventListener('submit', formSubmitHandler);
   };
 
-  /**
-   * Обработчик события сохранения настроек мага
-   * @param evt
-   */
+  // Обработчик события сохранения настроек мага
   var formSubmitHandler = function (evt) {
     window.backend.save(new FormData(formSetup), closeSetupWindow, window.util.isError);
     evt.preventDefault();
     formSetup.reset();
   };
 
-  /**
-   * Функция закрытия окна кастомизации мага
-   */
+  // Функция закрытия окна кастомизации мага
   var closeSetupWindow = function () {
     window.util.addClassNameToElement(setup, 'hidden');
     deleteEventListeners();
   };
 
-  /**
-   * Обработчик события нажатия по крестику окна кастомизации мага
-   */
+  // Обработчик события нажатия по крестику окна кастомизации мага
   var crossClickHandler = function () {
     closeSetupWindow();
   };
